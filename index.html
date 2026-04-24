@@ -805,7 +805,9 @@
     .stand-img-wrap {
       position: relative;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
     }
 
     .stand-img-frame {
@@ -813,11 +815,12 @@
       display: inline-block;
       border-radius: 20px;
       overflow: visible;
+      width: 100%;
+      max-width: 370px;
     }
 
     .stand-photo {
       width: 100%;
-      max-width: 370px;
       border-radius: 20px;
       box-shadow: 0 24px 64px rgba(44,24,16,0.2);
       display: block;
@@ -987,12 +990,14 @@
     }
 
     .stand-caption {
-      margin-top: 1.6rem;
+      margin-top: 1.1rem;
       text-align: center;
       font-size: 0.82rem;
       color: var(--text-light);
       font-style: italic;
       letter-spacing: 0.02em;
+      max-width: 370px;
+      width: 100%;
     }
 
     /* Scroll reveal for stand cards */
@@ -1011,27 +1016,126 @@
     .stand-card.revealed.active { transform: translateX(6px); }
 
     /* ── Responsive ── */
-    @media (max-width: 768px) {
-      .hero { min-height: 75vh; }
-      .section { padding: 4rem 1.25rem; }
-      .callout-box { flex-direction: column; padding: 2rem 1.8rem; gap: 1rem; }
-      .form-card { padding: 2rem 1.5rem; }
-      .form-row { grid-template-columns: 1fr; }
-      .nav-logo img { height: 65px; }
-      .nav-logo span { font-size: 1.35rem; }
-      .showcase-inner { grid-template-columns: 1fr; gap: 2.5rem; }
-      .stand-inner { grid-template-columns: 1fr; gap: 3rem; }
-      .stand-img-wrap { order: -1; }
-      .showcase-section { padding: 4rem 1.25rem; }
-      .stand-section { padding: 4rem 1.25rem 6rem; }
-      .hotspot-tip { width: 160px; font-size: 0.78rem; }
-      .stand-photo { max-width: 100%; }
+
+    /* Tablet: 768px – 1024px */
+    @media (max-width: 1024px) {
+      .stand-inner {
+        grid-template-columns: 1fr 1fr;
+        gap: 2.5rem;
+        align-items: start;
+      }
+
+      .stand-img-frame { max-width: 300px; }
+      .stand-caption   { max-width: 300px; }
+
+      .showcase-inner { gap: 2.5rem; }
+
+      /* Tooltips: flip to open downward on tablet to avoid clipping */
+      .hotspot-tip {
+        top: calc(100% + 10px);
+        left: 50%;
+        transform: translateX(-50%) scale(0.88);
+        transform-origin: top center;
+        width: 170px;
+      }
+      .hotspot.tip-left .hotspot-tip {
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%) scale(0.88);
+        transform-origin: top center;
+      }
+      .hotspot.open .hotspot-tip {
+        transform: translateX(-50%) scale(1);
+      }
+      .hotspot.tip-left.open .hotspot-tip {
+        transform: translateX(-50%) scale(1);
+      }
     }
 
+    /* Mobile: ≤768px */
+    @media (max-width: 768px) {
+      .hero { min-height: 75vh; }
+
+      .section { padding: 3.5rem 1.25rem; }
+      .showcase-section,
+      .stand-section  { padding: 3.5rem 1.25rem 5rem; }
+
+      .callout-box { flex-direction: column; padding: 1.8rem; gap: 1rem; }
+      .form-card   { padding: 1.8rem 1.25rem; }
+      .form-row    { grid-template-columns: 1fr; }
+
+      .nav-logo img  { height: 65px; }
+      .nav-logo span { font-size: 1.35rem; }
+
+      /* Stack both showcase and stand to single column */
+      .showcase-inner,
+      .stand-inner {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      /* Image comes first on mobile */
+      .stand-img-wrap { order: -1; }
+
+      /* Center the image frame on mobile */
+      .stand-img-frame {
+        max-width: 280px;
+        margin: 0 auto;
+      }
+      .stand-caption { max-width: 280px; }
+
+      /* Cards: slide from bottom on mobile (avoids horizontal overflow) */
+      .stand-card {
+        transform: translateY(16px);
+      }
+      .stand-card.revealed {
+        transform: translateY(0);
+      }
+      .stand-card.revealed:hover  { transform: translateY(-2px); }
+      .stand-card.revealed.active { transform: translateX(4px); }
+
+      /* Tooltips open downward, centered under pin */
+      .hotspot-tip,
+      .hotspot.tip-left .hotspot-tip {
+        top: calc(100% + 8px);
+        left: 50%;
+        right: auto;
+        width: 160px;
+        font-size: 0.78rem;
+        transform: translateX(-50%) scale(0.88);
+        transform-origin: top center;
+      }
+      .hotspot.open .hotspot-tip,
+      .hotspot.tip-left.open .hotspot-tip {
+        transform: translateX(-50%) scale(1);
+      }
+
+      .scard-stat { font-size: 1.25rem; }
+    }
+
+    /* Small mobile: ≤480px */
     @media (max-width: 480px) {
-      .hero h1 { font-size: 2.1rem; }
-      .steps-grid { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 2rem; }
+      .steps-grid    { grid-template-columns: 1fr; }
       .earnings-grid { grid-template-columns: 1fr; }
+
+      .stand-img-frame { max-width: 240px; }
+      .stand-caption   { max-width: 240px; }
+
+      /* Smaller hotspot dots on tiny screens */
+      .hotspot { width: 26px; height: 26px; }
+      .hotspot-dot { inset: 5px; font-size: 0.65rem; }
+
+      /* Tooltip fits narrow screens */
+      .hotspot-tip,
+      .hotspot.tip-left .hotspot-tip {
+        width: 145px;
+        padding: 0.7rem 0.85rem;
+      }
+
+      .scard-icon { width: 40px; height: 40px; font-size: 1.2rem; }
+      .scard-stat { font-size: 1.1rem; }
+      .scard-label, .scard-detail { font-size: 0.78rem; }
     }
   </style>
 </head>
