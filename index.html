@@ -1510,7 +1510,7 @@
       </a>
     </div>
     <p>&copy; 2025 Café de Olla by Chiquis. All rights reserved.</p>
-    <p>Email: <a href="mailto:orders@chiquisbakery.com" style="color:rgba(255,255,255,0.8); text-decoration:none;">orders@chiquisbakery.com</a></p>
+    <p>Email: <a id="footer-email" href="#" style="color:rgba(255,255,255,0.8); text-decoration:none;"></a></p>
   </footer>
 
   <script>
@@ -1629,6 +1629,14 @@
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape') closeLightbox();
     });
+
+    /* ── Footer email (assembled at runtime to bypass obfuscators) ── */
+    (function() {
+      var u = 'orders', d = 'chiquisbakery.com';
+      var el = document.getElementById('footer-email');
+      el.href = 'mailto:' + u + '\x40' + d;
+      el.textContent = u + '\x40' + d;
+    })();
   </script>
 
 </body>
