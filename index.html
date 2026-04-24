@@ -1145,7 +1145,7 @@
   <nav class="navbar">
     <div class="nav-inner">
       <a href="../pages/home.html" class="nav-logo">
-        <img src="../images/logo.png" alt="Café de Olla logo" />
+        <img src="logo.png" alt="Café de Olla logo" />
         <span>Cafe de Olla</span>
       </a>
     </div>
@@ -1511,9 +1511,30 @@
   </footer>
 
   <script>
-    /* ── Form submit ── */
+    /* ── Form submit → Google Forms ── */
     document.getElementById('partnerForm').addEventListener('submit', function(e) {
       e.preventDefault();
+
+      const FORM_ACTION = 'https://docs.google.com/forms/d/e/1FAIpQLScpDRwhr0tNLBPcXNib1Q6FqzGy40EwiNQT0m_0WbteOoFyeQ/formResponse';
+
+      const body = new URLSearchParams({
+        'entry.937370553': document.getElementById('name').value,
+        'entry.433965008': document.getElementById('phone').value,
+        'entry.1228454323': document.getElementById('email').value,
+        'entry.399766074': document.getElementById('business').value,
+        'entry.2134930449': document.getElementById('address').value,
+        'entry.304342929': document.getElementById('notes').value,
+      });
+
+      // no-cors: data reaches Google, response is opaque (expected)
+      fetch(FORM_ACTION, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: body.toString(),
+      });
+
+      // Show thank you immediately — no need to wait for opaque response
       this.style.display = 'none';
       document.getElementById('thankYou').classList.add('visible');
       document.getElementById('contact-form').scrollIntoView({ behavior: 'smooth', block: 'center' });
